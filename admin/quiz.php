@@ -105,7 +105,7 @@
             {
               ?>
                   <div class="alert alert-success" role="alert" id="alert12">
-                    <?=$querySuccess?>
+                    Request Successfully Proccessed
                     <span class="close" onclick='removeAlert("alert12")'>x</span>
                   </div>
               <?php

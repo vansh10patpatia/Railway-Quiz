@@ -25,7 +25,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>GYM | Admin Log in</title>
+  <title>Quiz | Admin Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -44,7 +44,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="index2.html"><b>GYM</b> Login</a>
+    <a href="#"><b>Quiz</b> Login</a>
   </div>
     <?php
     if(isset($error))
