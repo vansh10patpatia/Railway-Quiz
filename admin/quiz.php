@@ -48,28 +48,28 @@
 
   $i=1;
 
-  if(isset($_POST['change']))
-  {
-    $id= $_POST['change'];
-    $question = $_POST['question'.$id];
-    $opt1 = $_POST['option_a'.$id];
-    $opt2 = $_POST['option_b'.$id];
-    $opt3 = $_POST['option_c'.$id];
-    $opt4 = $_POST['option_d'.$id];
-    $ans = $_POST['option'.$id];
+  // if(isset($_POST['change']))
+  // {
+  //   $id= $_POST['change'];
+  //   $question = $_POST['question'.$id];
+  //   $opt1 = $_POST['option_a'.$id];
+  //   $opt2 = $_POST['option_b'.$id];
+  //   $opt3 = $_POST['option_c'.$id];
+  //   $opt4 = $_POST['option_d'.$id];
+  //   $ans = $_POST['option'.$id];
     
-    $sql="update questions set ques='$question' , opt1='$opt1' , opt2='$opt2' , opt3='$opt3' , opt4='$opt4' , correct_opt='$ans' where id='$id'";
+  //   $sql="update questions set ques='$question' , opt1='$opt1' , opt2='$opt2' , opt3='$opt3' , opt4='$opt4' , correct_opt='$ans' where id='$id'";
 
-    if($conn->query($sql))
-    {
-      $querySuccess = true;
-    }
-    else
-    {
-      $queryError = true;
-    }
+  //   if($conn->query($sql))
+  //   {
+  //     $querySuccess = true;
+  //   }
+  //   else
+  //   {
+  //     $queryError = true;
+  //   }
 
-  }
+  // }
 
 
   // Displaying All records 
@@ -314,7 +314,7 @@
                       
                     </p>
                   </div>
-                    <div class="d-flex">
+                      <div class="d-flex">
                       <ul class="todo-list" data-widget="todo-list">
                       <li>
                         <div  class="icheck-primary d-inline ml-12">
@@ -395,7 +395,7 @@
                       <div class="d-flex">
                         
                         <p class="p-2 flex-shrink-1">
-                          <button type="submit" style="display:none" class="btn btn-outline-primary" name="change"  id="up<?=$value['id']?>" value="<?=$value['id']?>" >Update</button>
+                          <button type="button" style="display:none" class="btn btn-outline-primary" name="change"  id="up<?=$value['id']?>" value="<?=$value['id']?>" onclick="updateAjax(<?=$value['id']?>)" >Update</button>
                         </p>
                       </div>
                       </div> 
@@ -504,18 +504,64 @@
   });
 
 
-  function updateAjax(db_id,element_id)
+  function updateAjax(id)
   {
-    var question  = $("#"+element_id).val();
-      $.ajax({
-        url:'',
-        type:"POST",
-        data:{
-          question_id:db_id,
-          question
-
+    var ques = $("#question"+id).val();
+    var opt1 = $("#option1"+id).val();
+    var opt2 = $("#option2"+id).val();
+    var opt3 = $("#option3"+id).val();
+    var opt4 = $("#option4"+id).val();
+    var ele =  document.getElementsByName('option'+id);
+    var ans = "";
+   
+     for(i = 0; i < ele.length; i++) 
+      { 
+        if(ele[i].checked) 
+        {
+          ans = ele[i].value;
         }
-      })
+      }
+
+      console.log(ques);
+      console.log(opt1);
+      console.log(opt2);
+      console.log(opt3);
+      console.log(opt4);
+      console.log(ans);
+      $.ajax(
+        {
+          url:'quiz_ajax.php',
+          type:"POST",
+          data:{change:id,
+                question:ques,
+                opt1:opt1,
+                opt2:opt2,
+                opt3:opt3,
+                opt4:opt4,
+                ans:ans         
+              },
+              success : function(data)
+                {
+                  if(data.trim()=="updated")
+                  {
+                    $("#up"+id).hide(); 
+                    $(".form-control").attr("disabled",true);
+                    $("#question"+id).attr("disabled",true);
+                    $(".newField").attr("disabled",false);
+                    $(".btn-tool").show();
+                    // $("#editques"+id).hide();
+                    // $("#up"+id).attr('name',"change");
+                    $("#option1"+id).attr("disabled",true);
+                    $("#option2"+id).attr("disabled",true);
+                    $("#option3"+id).attr("disabled",true);
+                    $("#option4"+id).attr("disabled",true);
+                  }              
+
+                },
+                error:
+                function(err){} 
+
+      });
   }
 </script>
 </html>
