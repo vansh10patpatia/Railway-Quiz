@@ -230,28 +230,28 @@ var wrong_answer = 0;
             }
             $(".optbtn").prop('disabled',true);
            
-            $.ajax({
-            url:'user_ajax.php',
-            type:'POST',
-            data:{
-                response:user_ans
+        //     $.ajax({
+        //     url:'user_ajax.php',
+        //     type:'POST',
+        //     data:{
+        //         response:user_ans
 
-            },
-            success:function(data)
-            {
-                    var obj = JSON.parse(data);
-                    if(obj.msg.trim()=="ok")
-                    {
-                        questions = obj.questions;
-                        show(questions[questionCounter]);
-                        start_timer();
-                    }
-                    if(obj.msg.trim()=="error")
-                    {
+        //     },
+        //     success:function(data)
+        //     {
+        //             var obj = JSON.parse(data);
+        //             if(obj.msg.trim()=="ok")
+        //             {
+        //                 questions = obj.questions;
+        //                 show(questions[questionCounter]);
+        //                 start_timer();
+        //             }
+        //             if(obj.msg.trim()=="error")
+        //             {
                         
-                    }
-            }
-        })
+        //             }
+        //     }
+        // });
             
         })
 
