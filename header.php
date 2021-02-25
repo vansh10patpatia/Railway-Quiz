@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>Admin Panel/Quiz</title>
+  <title>Quiz</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="./admin/plugins/fontawesome-free/css/all.min.css">
@@ -32,6 +32,61 @@
         }
 
         .close:hover {color: red;}
+    
+        .typewriter-text 
+        {
+            display: inline-block;
+            overflow: hidden;
+            letter-spacing: 2px;
+            animation: typing 5s steps(30, end), blink .75s step-end infinite;
+            white-space: nowrap;
+            font-size: 30px;
+            font-weight: 700;
+            border-right: 4px solid orange;
+            box-sizing: border-box;
+        }
+
+        @keyframes typing 
+        {
+            from { 
+                width: 0% 
+            }
+            to { 
+                width: 100% 
+            }
+        }
+
+        @keyframes blink 
+        {
+            from, to { 
+                border-color: transparent 
+            }
+            50% { 
+                border-color: orange; 
+            }
+        }
+
+        #dotred {
+              height: 10px;
+              width: 10px;
+              background-color: red;
+              border-radius: 50%;
+              display: inline-block;
+            }
+        #dotgreen {
+          height: 10px;
+          width: 10px;
+          background-color: green;
+          border-radius: 50%;
+          display: inline-block;
+        }    
+        #dotblue {
+          height: 10px;
+          width: 10px;
+          background-color: #0066FF;
+          border-radius: 50%;
+          display: inline-block;
+        }    
     </style>
 </head>
 <!--
