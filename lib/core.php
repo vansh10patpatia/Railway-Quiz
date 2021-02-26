@@ -103,7 +103,7 @@ function user_auth($page,$type)
             switch($type)
             {
                 case 1: 
-                    header("location:./quiz.php");
+                    header("location:./dashboard");
                     $_SESSION['vendor_signed_in']=$email;
                     $_SESSION['id']=$id;
                     $_SESSION['type']=$type;

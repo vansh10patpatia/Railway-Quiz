@@ -265,9 +265,11 @@ require_once "sidebar.php";
 </div>
 
 <div class="control-sidebar-bg"></div>
+
 <?php
-require_once 'js-links.php';
-?>
+    require_once "footer.php";
+    require_once "script_link.php"
+ ?>
 <!-- ChartJS -->
 <script src="plugins/flot/jquery.flot.js"></script>
 <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->

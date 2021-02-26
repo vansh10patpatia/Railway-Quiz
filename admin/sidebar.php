@@ -40,8 +40,8 @@
               </p>
             </a>
           </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Library Management
@@ -63,7 +63,14 @@
               </li> 
             </ul>
           </li>
-           
+          <li class="nav-item">
+            <a href="./logout" class="nav-link">
+              <i class="fa-sign-out"></i>
+              <p>
+                Logout
+              </p>
+            </a>
+          </li>
         </ul>
       <!-- /.sidebar-menu -->
     </div>
