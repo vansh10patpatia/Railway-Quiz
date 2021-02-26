@@ -22,7 +22,8 @@ if ($result = $conn->query($sql)) {
         }
 
         //   print_r($tech_lib_data);
-
+        $books_json = json_encode($tech_lib_data);
+        
     }
 }
 ?>
@@ -54,49 +55,52 @@ if ($result = $conn->query($sql)) {
                             </div>
                         </div>
                         <div class="card-body">
-                        <?php
-                            if(isset($tech_lib_data))
-                            {
-                                foreach($tech_lib_data as $tech_lib)
-                                {
-                        ?>
-                                        <div class="card collapsed-card" id="add_ques">
-                                            <div class="card-header" height="10">
-                                                <h5 class="card-title">
-                                                        <?=ucfirst($tech_lib['category'])?>
-                                                </h5>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                    <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <?php
+                            if (isset($tech_lib_data)) {
+                                foreach ($tech_lib_data as $tech_lib) {
+                            ?>
+                                    <div class="card collapsed-card" id="add_ques">
+                                        <div class="card-header" height="10">
+                                            <h5 class="card-title" style="display:flex;flex:1;flex-direction:row;width:97%">
+                                                <p style="display:flex;flex:0.6;flex-direction:row;">
+                                                    <?= ucfirst($tech_lib['category']) ?>
+                                                </p>
+                                                <div class="input-group input-group-sm" style="display:flex;flex:0.3;flex-direction:row;margin-right:20px">
+                                                    <input class="form-control form-control-navbar catSearch" type="search" placeholder="Search" aria-label="Search"/> 
+                                                    <input type="hidden" value="<?=$tech_lib['id']?>"/>
+                                                </div>
+                                            </h5>
+                                            <div class="card-tools">
+                                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                                <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
                                                         <i class="fas fa-times"></i>
                                                     </button> -->
-                                                </div>
                                             </div>
-                                               
+                                        </div>
 
-                                            <div class="card-body">
-                                                
-                                                <?php
-                                                
-                                                foreach($tech_lib['books'] as $books )
-                                                {
-                                                ?>
-                                                    <ul class="todo-list" data-widget="todo-list">
-                                                        <li><a href="./admin/uploads/<?=$books['book_addr']?>" target="_blank">1. <?=ucfirst($books['book_name'])?></a></li>
-                                                    </ul>
-                                                <?php
-                                                }
-                                                ?>
-                                               
-                                            </div>
-                                        </div> 
-                        <?php
+
+                                        <div class="card-body" id="cat_body<?=$tech_lib['id']?>">
+
+                                            <?php
+
+                                            foreach ($tech_lib['books'] as $books) {
+                                            ?>
+                                                <ul class="todo-list" data-widget="todo-list">
+                                                    <li><a href="./admin/uploads/<?= $books['book_addr'] ?>" target="_blank">1. <?= ucfirst($books['book_name']) ?></a></li>
+                                                </ul>
+                                            <?php
+                                            }
+                                            ?>
+
+                                        </div>
+                                    </div>
+                            <?php
                                 }
                             }
-                        ?>
-                            
+                            ?>
+
                         </div>
                     </div>
                 </div>
@@ -104,9 +108,7 @@ if ($result = $conn->query($sql)) {
         </div>
     </div>
 
-</div>
-
-
+</div> 
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -127,5 +129,37 @@ require_once 'js-links.php';
 
 <script>
 
+var lib_books_data = JSON.parse('<?=$books_json?>'); 
+var cat_bodys = [];
+var searched_cat_id = null;
 
+$(function(){
+    $(".catSearch").on("input",function(e)
+    {
+        var cat_id = $(this).next().val();
+        var toSearch = $(this).val();
+        var search_result = lib_books_data[cat_id].books.filter(function(item)
+        {
+            return item.book_name.includes(toSearch)
+        })  
+        var inhtml =`<ul class="todo-list" data-widget="todo-list">`;
+        var i =1;
+        $.each(search_result,function(key,value)
+        {
+            inhtml += `<li><a href="./admin/uploads/${value.book_addr}" target="_blank"> ${i}. ${value.book_name}</a></li>`;
+            i++;
+        });
+        inhtml += `</ul>`;
+        $("#cat_body"+cat_id).html(inhtml)
+        if(searched_cat_id != cat_id)
+        { 
+            cat_bodys[cat_id] = $("#cat_body"+cat_id).html();
+            searched_cat_id = cat_id;
+        }
+        if(toSearch=='' && cat_bodys[cat_id])
+        {
+            $("#cat_body"+cat_id).html(cat_bodys[cat_id])
+        } 
+    });
+});
 </script>
