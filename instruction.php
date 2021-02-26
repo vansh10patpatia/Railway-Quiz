@@ -9,17 +9,6 @@
     {
       $naam = $_POST['username'];
       
-      $show = "select * from response where username='$naam' ";
-      $run = $conn->query($show);
-      if(mysqli_num_rows($run)>0)
-      {
-          
-           $result = "Sorry You Have Already given the test" ;
-               
-          
-      }
-      else
-      {
         $sql = "insert into response(username) values('$naam')";
         if($conn->query($sql))
         {
@@ -35,8 +24,7 @@
           $queryError = "Error Occured while inserting the Question!";
           echo "error : ".$conn->error;
         }
-      }
-
+     
       
     }
 ?>

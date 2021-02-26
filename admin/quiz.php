@@ -86,7 +86,19 @@
       echo "error : ".$conn->error;
     }
 
+  $timershow = "SELECT * from admin where id='2'";
 
+  if($result = $conn->query($timershow))
+  {
+    while($row = $result->fetch_assoc())
+      {
+          $seconds[]=$row; 
+      }    
+  }
+  else
+  {
+    echo "error : ".$conn->error;
+  }
 
 ?>
 
@@ -105,7 +117,7 @@
             {
               ?>
                   <div class="alert alert-success" role="alert" id="alert12">
-                    <?=$querySuccess?>
+                    Request Successfully Proccessed
                     <span class="close" onclick='removeAlert("alert12")'>x</span>
                   </div>
               <?php
@@ -170,7 +182,7 @@
                   <div class="d-flex">
                     <div class="container">
                       <div class="row">
-                        <input class="form-control form-control-lg newField " type="text" name="newquestion" placeholder="Write New Question here!" required>  
+                        <input class="form-control form-control-lg newField " type="text" name="newquestion" placeholder="Write New Question here!" required/>  
                         
                       </div>
                       <br>
@@ -226,6 +238,7 @@
                         <input type="radio" value="D" name="option" id="todoCheck4">
                         <label for="todoCheck4">D</label>
                       </li>
+                      </ul>
                       </div> 
                       <div class="d-flex">
                         <p class="p-1 w-100"></p>
@@ -239,21 +252,49 @@
           
                  </div>
             </div>
+          
+
 
               <!-- Questions Card -->
               <div class="card"> 
                 <div class="card-header">
                   <div class="d-flex justify-content-between">
-                    <h3 class="card-title"><i class="bi bi-grid-3x3-gap"></i>&nbsp;<b>Questions</b></h3>
+                    <h3 class="card-title"><i class="bi bi-stopwatch"></i>&nbsp;<b>Timer</b><small>(in seconds)</small></h3>
+                    
                   
-                  <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-card-widget="remove">
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
+                    <div class="card-tools">
+                    <div class="input-group mb-3">
+                    <?php 
+                    foreach($seconds as $sec)
+                    {
+                    ?>
+                      <input type="number" class="form-control" placeholder="Question Timer" id="timerrr" aria-label="Recipient's username" value="<?=$sec['type']?>" aria-describedby="basic-addon2">
+                      <?php
+                    }
+                      ?>
+                      <div class="input-group-append">
+                        <button class="input-group-text" id="basic-addon2" onclick="addTimer()" style="background-color:dodgerblue">Update</button>
+                      </div>
+                    
+                    </div>
+                    </div>
                   </div>
                 </div> 
               </div> 
+              <div class="card"> 
+                <div class="card-header">
+                  <div class="d-flex justify-content-between">
+                    <h3 class="card-title"><i class="bi bi-grid-3x3-gap"></i>&nbsp;<b>Questions</b></h3>
+                  
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div> 
+              </div> 
+
               <?php
                 if(isset($data))
                 { 
@@ -434,7 +475,7 @@
 
 
 </body>
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> -->
 <script>
 
   var  editElementId='';
@@ -522,12 +563,12 @@
         }
       }
 
-      console.log(ques);
-      console.log(opt1);
-      console.log(opt2);
-      console.log(opt3);
-      console.log(opt4);
-      console.log(ans);
+      // console.log(ques);
+      // console.log(opt1);
+      // console.log(opt2);
+      // console.log(opt3);
+      // console.log(opt4);
+      // console.log(ans);
       $.ajax(
         {
           url:'quiz_ajax.php',
@@ -556,6 +597,26 @@
                     $("#option3"+id).attr("disabled",true);
                     $("#option4"+id).attr("disabled",true);
                   }              
+
+                },
+                error:
+                function(err){} 
+
+      });
+  }
+
+  function addTimer()
+  {
+    var timer = $("#timerrr").val();
+    $.ajax(
+        {
+          url:'quiz_ajax.php',
+          type:"POST",
+          data:{      
+                  timer : timer
+              },
+              success : function(data)
+                {
 
                 },
                 error:

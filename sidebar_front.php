@@ -15,9 +15,9 @@ $sql = "SELECT *  from questions";
 <aside class="main-sidebar sidebar-white-primary elevation-4" style="background: linear-gradient(to bottom, #cc99ff 0%, #66ccff 100%);">
     <!-- Brand Logo -->
     <a href="quiz_front.php" class="brand-link" >
-      <img src="./admin/dist/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <h2 style=" background: -webkit-linear-gradient(#993333 0%, #000066 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;font-style: italic;" ><b>Railway</b>
-      </h2>
+      <center>
+        <img src="./admin/dist/img/logo.png"  style="opacity: .8" height="100" width="100">
+      </center>
     </a>
 
     
@@ -33,69 +33,19 @@ $sql = "SELECT *  from questions";
             <ul class="nav nav-treeview">
               <div class="container">
 
-                  
-                      <div class="card border-primary mb-3" style="max-width: 18rem;">
-                        <div class="card-header">
-                          <div class="d-flex justify-content-between">
-                            <span class="text text-lg">
-                              <h5 style="color:Black">&nbsp;<i class="bi bi-file-earmark-text" ></i>&nbsp;&nbsp;Questions</h5>
-                            </span>
+                        <div class="card border-success mb-3" style="max-width: 18rem;">
+                          <div class="card-header">
+                            <div class="d-flex justify-content-between">
+                              <span class="text text-lg">
+                                <h5 style="color:Black">&nbsp;<i class="bi bi-file-earmark-text" ></i>&nbsp;&nbsp;Questions</h5>
+                              </span>
+                            </div>
+                          </div>
+                          <div class="card-body">
+                            Number of Questions                         : &nbsp;<?=$rows?>
                           </div>
                         </div>
-                        <div class="card-body">
-                        <?php
-                                $x=0;
-                                $button = $rows/4 ;
-                                $reminder = $rows% 4;
-                                if($rows%4==0)
-                                {
-                                  $a=$button;
-                                  $b=4;
-                                }
-                                else
-                                {
-                                  $a=$button+1;
-                                }
-                                  for($i=1 ; $i <= $a ; $i++)
-                                  {
-                                    
-                                      ?>
-                                <div class="d-flex">
-                                <input type="hidden" value="<?=$rows?>">
-                                <?php
-                                  if($i*4>=$rows)
-                                  {
-                                    $b=$rows%4;
-                                  }
-                                  else
-                                  {
-                                    $b=4;
-                                  }
-                                for($j=1 ; $j <= $b ; $j++)
-                                { $x++;
-                                ?>
-                                 
-                                <p class="p-1 w-100">
-                                <!-- onclick="showQuestion('<?=$x?>')" -->
-                                  <button class="btn btn-light" type="button" id="quesNO<?=$x?>" style="border-top-left-radius:2.5vh;border-bottom-right-radius:1.5vh;background-color:#E8E8E8" ><?=$x?></button>
-                                </p>
-                                   <?php
-                                  }      
-                                ?>
-
-                                 </div>
-                                 <?php
-                                  }
-                                 ?>
-                          
-                          
-                        </div>
-                        <div class="card-footer text-muted">
-                          <small class="dot" id="dotgreen"></small>&nbsp;<small style="color:#000000">Correct</small>&nbsp;
-                          <small class="dot" id="dotred"></small>&nbsp;<small style="color:#000000">Wrong</small>&nbsp;
-                          <small class="dot" id="dotblue"></small>&nbsp;<small style="color:#000000">Current</small>                          
-                        </div>
-                    </div>
+                     
                    
                     
                         <div class="card ">
@@ -103,29 +53,16 @@ $sql = "SELECT *  from questions";
                             <div class="card-header">
                               <div class="d-flex justify-content-between">
                                 <span class="text text-lg">
-                                  <a href="instruction.php">
-                                    <h5 style="color:Black">&nbsp;<i class="bi bi-book"></i>&nbsp;&nbsp;Instructions</h5>
-                                  </a>
+                                  <button type="button" class="btn btn-outline-light" onclick = "mainmenu()"><h5 style="color:Black"><i class="bi bi-person-badge"></i>&nbsp;&nbsp;&nbsp;Main Menu</h5></button>
+                                    
                                 </span>
                                 
                               </div>
                             </div>
                             
-                            <!-- <div class="card-body">
-                              <div class="d-flex">
-                                <p class="p-1 w-100">
-                                  <small>1) Read the question carefully. </small>
-                                </p>
-                              </div>
-                              <div class="d-flex">
-                                <p class="p-1 w-50">
-                                <small>2) Each question Should be attempted in the given time.</small>
-                                </p>
-                              </div>
-
-                            </div> -->
-
+                            
                         </div>
+                        
                   
                 </div>  
             </ul>
@@ -215,7 +152,14 @@ $sql = "SELECT *  from questions";
         questionTimer = QUESTION_TIME;
     }
   }
-    
+    function mainmenu()
+    {
+      if(confirm("Are you sure to go back to main menu?"))
+      {
+        window.location.href="http://localhost/Railway-Quiz/instruction.php";
+      }
+ 
+    }
 
 
   </script>

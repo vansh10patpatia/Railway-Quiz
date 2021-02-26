@@ -22,20 +22,27 @@
         }
     }
     
-    if(isset($_POST['response']))
+    
+if(isset($_POST['time']))
+{
+    $timershow = "SELECT * from admin where id='2'";
+
+    if($result = $conn->query($timershow))
     {
-        $response = $_POST['response'];
-        $sql = "insert into response(username) values('$response')";
-        if($conn->query($sql))
+        while($row = $result->fetch_assoc())
         {
-            echo "responsed";
-        }
-        else
-        {
-          $queryError = "Error Occured while inserting the Question!";
-          echo "error : ".$conn->error;
-        }
+            $seconds[]=$row;
+        }    
 
+        
     }
-
+    foreach($seconds as $sec)
+    {
+        echo $sec['type'];
+    }
+    // else
+    // {
+    //     echo "error : ".$conn->error;
+    // }
+}
 ?>

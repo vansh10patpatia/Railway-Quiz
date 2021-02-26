@@ -1,10 +1,10 @@
  <!-- Main Footer -->
  <footer class="main-footer">
-    <strong>Made With Love.</strong>
+    <strong>Made With Love</strong>
     
     
     <div class="float-right ">
-      &copy;<b> Cyber Flow</b>
+      <b>By  Cyber Flow</b>
     </div>
   </footer>
 </div>

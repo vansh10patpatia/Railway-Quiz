@@ -26,4 +26,21 @@ if(isset($_POST['change']))
     }
   }
 
+  if(isset($_POST['timer']))
+  {
+    $timer = $_POST['timer'];
+
+    $sql = "update admin set type='$timer' where id='2'";
+    if($conn->query($sql))
+    {   
+        echo $timer;
+      $querySuccess = true;
+    }
+    else
+    {
+        echo "error";
+      $queryError = true;
+    }
+  }
+
 ?>
