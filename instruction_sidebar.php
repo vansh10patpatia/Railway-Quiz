@@ -1,9 +1,9 @@
-<aside class="main-sidebar sidebar-white-primary elevation-4" style="background-color:gainsboro">
+<aside class="main-sidebar sidebar-white-primary elevation-4" style="background: linear-gradient(to bottom, #ffff99 0%, #ffccff 100%);">
     <!-- Brand Logo -->
     <a href="quiz_front.php" class="brand-link" >
-      <img src="./admin/dist/img/1.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <h3 style=" background: -webkit-linear-gradient(red, black);-webkit-background-clip: text;-webkit-text-fill-color: transparent;" ><b>Cyber Flow</b>
-      </h3>
+      <img src="./admin/dist/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <h2 style=" background: -webkit-linear-gradient(#993333 0%, #000066 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;font-style: italic;" ><b>Railway</b>
+      </h2>
     </a>
 
     
@@ -22,7 +22,7 @@
                         <div class="card-header">
                           <div class="d-flex justify-content-between">
                             <span class="text text-lg">
-                                <a href="quiz-front.php">
+                                <a href="quiz_front.php">
                                   <h5 style="color:Black">&nbsp;<i class="bi bi-file-earmark-text" ></i>&nbsp;&nbsp;Quiz</h5>
                                 </a>  
                             </span>
@@ -42,21 +42,7 @@
                                 
                               </div>
                             </div>
-                            
-                            <!-- <div class="card-body">
-                              <div class="d-flex">
-                                <p class="p-1 w-100">
-                                  <small>1) Read the question carefully. </small>
-                                </p>
-                              </div>
-                              <div class="d-flex">
-                                <p class="p-1 w-50">
-                                <small>2) Each question Should be attempted in the given time.</small>
-                                </p>
-                              </div>
-
-                            </div> -->
-
+                    
                         </div>
                   
                 </div>  

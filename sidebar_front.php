@@ -34,7 +34,7 @@ $sql = "SELECT *  from questions";
               <div class="container">
 
                   
-                    <div class="card">
+                      <div class="card border-primary mb-3" style="max-width: 18rem;">
                         <div class="card-header">
                           <div class="d-flex justify-content-between">
                             <span class="text text-lg">
@@ -77,7 +77,7 @@ $sql = "SELECT *  from questions";
                                  
                                 <p class="p-1 w-100">
                                 <!-- onclick="showQuestion('<?=$x?>')" -->
-                                  <button class="btn btn-light" type="button" id="quesNO<?=$x?>" style="border-top-left-radius:2.5vh;border-bottom-right-radius:2.5vh;background-color:#E8E8E8" ><?=$x?></button>
+                                  <button class="btn btn-light" type="button" id="quesNO<?=$x?>" style="border-top-left-radius:2.5vh;border-bottom-right-radius:1.5vh;background-color:#E8E8E8" ><?=$x?></button>
                                 </p>
                                    <?php
                                   }      
@@ -90,14 +90,20 @@ $sql = "SELECT *  from questions";
                           
                           
                         </div>
+                        <div class="card-footer text-muted">
+                          <small class="dot" id="dotgreen"></small>&nbsp;<small style="color:#000000">Correct</small>&nbsp;
+                          <small class="dot" id="dotred"></small>&nbsp;<small style="color:#000000">Wrong</small>&nbsp;
+                          <small class="dot" id="dotblue"></small>&nbsp;<small style="color:#000000">Current</small>                          
+                        </div>
                     </div>
+                   
                     
                         <div class="card ">
                           
                             <div class="card-header">
                               <div class="d-flex justify-content-between">
                                 <span class="text text-lg">
-                                  <a href="instructions.php">
+                                  <a href="instruction.php">
                                     <h5 style="color:Black">&nbsp;<i class="bi bi-book"></i>&nbsp;&nbsp;Instructions</h5>
                                   </a>
                                 </span>

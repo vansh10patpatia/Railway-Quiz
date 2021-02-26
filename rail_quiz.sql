@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2021 at 06:42 AM
+-- Generation Time: Feb 25, 2021 at 08:01 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.1
 
@@ -64,7 +64,30 @@ CREATE TABLE `questions` (
 
 INSERT INTO `questions` (`id`, `ques`, `opt1`, `opt2`, `opt3`, `opt4`, `correct_opt`) VALUES
 (6, 'Which is the fastest animal on Earth?', 'Lion', 'Cheetah', 'Tiger', 'Fox', 'B'),
-(12, 'Who is the President of India?', 'Pranab Mukherjee', 'Pratibha Patel', 'Ram Nath Kovind', 'Narendra Modi', 'C');
+(13, 'Who is the National Animal of India? ', 'Tiger', 'Lion', 'Elephant', 'Leopard', 'A'),
+(15, 'Who is the President of India?', 'Narendra Modi', 'Pranab Mukherjee', 'Pratibha Patel', 'Ram Nath Kovind', 'D'),
+(16, 'What is 8*2+5-6?', '15', '11', '0', '8', 'A'),
+(17, 'Who is known as the Flying Sikh?', 'Milkha Singh', 'P.T Usha', 'Jagmeet Singh', 'Harjjit Sajan', 'A'),
+(18, 'Where is Taj Mahal Located', 'Kanpur', 'Patna', 'Lucknow', 'Agra', 'D'),
+(19, 'Where is Burj Khalifa Located?', 'Dubai', 'Abu Dhabi', 'Kuwait', 'Ajman', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `response`
+--
+
+CREATE TABLE `response` (
+  `id` int(11) NOT NULL,
+  `username` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `response`
+--
+
+INSERT INTO `response` (`id`, `username`) VALUES
+(7, 'Vansh');
 
 --
 -- Indexes for dumped tables
@@ -83,6 +106,12 @@ ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `response`
+--
+ALTER TABLE `response`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -96,7 +125,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `response`
+--
+ALTER TABLE `response`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

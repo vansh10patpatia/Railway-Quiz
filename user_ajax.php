@@ -22,5 +22,20 @@
         }
     }
     
+    if(isset($_POST['response']))
+    {
+        $response = $_POST['response'];
+        $sql = "insert into response(username) values('$response')";
+        if($conn->query($sql))
+        {
+            echo "responsed";
+        }
+        else
+        {
+          $queryError = "Error Occured while inserting the Question!";
+          echo "error : ".$conn->error;
+        }
+
+    }
 
 ?>
