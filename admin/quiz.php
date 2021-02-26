@@ -170,7 +170,7 @@
                   <div class="d-flex">
                     <div class="container">
                       <div class="row">
-                        <input class="form-control form-control-lg newField " type="text" name="newquestion" placeholder="Write New Question here!" required>  
+                        <input class="form-control form-control-lg newField " type="text" name="newquestion" placeholder="Write New Question here!" required/>  
                         
                       </div>
                       <br>
@@ -226,6 +226,7 @@
                         <input type="radio" value="D" name="option" id="todoCheck4">
                         <label for="todoCheck4">D</label>
                       </li>
+                      </ul>
                       </div> 
                       <div class="d-flex">
                         <p class="p-1 w-100"></p>
@@ -239,6 +240,8 @@
           
                  </div>
             </div>
+          
+
 
               <!-- Questions Card -->
               <div class="card"> 
@@ -434,7 +437,7 @@
 
 
 </body>
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> -->
 <script>
 
   var  editElementId='';
