@@ -89,7 +89,7 @@ if ($result = $conn->query($sql)) {
                                             {
                                             ?>
                                                 <ul class="todo-list" data-widget="todo-list">
-                                                    <li><a href="./admin/uploads/<?= $books['book_addr'] ?>" target="_blank"> <?=$i?><?= ucfirst($books['book_name']) ?></a></li>
+                                                    <li><a href="./admin/uploads/<?= $books['book_addr'] ?>" target="_blank"> <?=$i?>. <?= ucfirst($books['book_name']) ?></a></li>
                                                 </ul>
                                             <?php
                                                 $i++;
@@ -140,26 +140,28 @@ $(function(){
     {
         var cat_id = $(this).next().val();
         var toSearch = $(this).val();
+
+        if(searched_cat_id != cat_id && !cat_bodys[cat_id])
+        { 
+            cat_bodys[cat_id] = $("#cat_body"+cat_id).html();
+            searched_cat_id = cat_id; 
+        }
         var search_result = lib_books_data[cat_id].books.filter(function(item)
         {
-            return item.book_name.includes(toSearch)
+            return item.book_name.toLowerCase().includes(toSearch.toLowerCase())
         })  
         var inhtml =`<ul class="todo-list" data-widget="todo-list">`;
         var i =1;
         $.each(search_result,function(key,value)
         {
-            inhtml += `<li><a href="./admin/uploads/${value.book_addr}" target="_blank"> ${i}. ${value.book_name}</a></li>`;
+            inhtml += `<li><a href="./admin/uploads/${value.book_addr}" target="_blank"> ${i} . ${value.book_name}</a></li>`;
             i++;
         });
         inhtml += `</ul>`;
         $("#cat_body"+cat_id).html(inhtml)
-        if(searched_cat_id != cat_id)
-        { 
-            cat_bodys[cat_id] = $("#cat_body"+cat_id).html();
-            searched_cat_id = cat_id;
-        }
+        
         if(toSearch=='' && cat_bodys[cat_id])
-        {
+        { 
             $("#cat_body"+cat_id).html(cat_bodys[cat_id])
         } 
     });

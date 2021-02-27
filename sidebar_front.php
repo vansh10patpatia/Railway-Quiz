@@ -156,7 +156,7 @@ $sql = "SELECT *  from questions";
     {
       if(confirm("Are you sure to go back to main menu?"))
       {
-        window.location.href="http://localhost/Railway-Quiz/instruction.php";
+        window.location.href="./index";
       }
  
     }

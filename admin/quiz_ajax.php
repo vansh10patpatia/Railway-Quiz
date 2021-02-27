@@ -30,10 +30,10 @@ if(isset($_POST['change']))
   {
     $timer = $_POST['timer'];
 
-    $sql = "update admin set type='$timer' where id='2'";
+    $sql = "update web_config set quiz_time='$timer' where id='1'";
     if($conn->query($sql))
     {   
-        echo $timer;
+        echo "ok";
       $querySuccess = true;
     }
     else

@@ -15,7 +15,7 @@
           $querySuccess = "Question inserted Successfully!";
         ?>
         <script>
-          window.location.href="http://localhost/Railway-Quiz/quiz_front.php";
+          window.location.href="./quiz_front";
         </script>
         <?php
         }

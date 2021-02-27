@@ -5,21 +5,14 @@
   require_once "rightnavbar.php";
   require_once "sidebar_front.php";
   
-  $timershow = "SELECT * from admin where id='2'";
+  $timershow = "SELECT * from web_config where id='1'";
 
   if($result = $conn->query($timershow))
   {
-      while($row = $result->fetch_assoc())
-      {
-          $seconds[]=$row;
-      }    
-
-      
+      $row = $result->fetch_assoc();
+      $timer=$row['quiz_time']; 
   }
-  foreach($seconds as $sec)
-  {
-      $timer =  $sec['type'];
-  }
+   
 ?>
 
 
@@ -31,13 +24,9 @@
       <div class="container-fluid">
         <!-- Alert -->
         <div class="row mb-2">
-          <div class="col-sm-12">
-          
+          <div class="col-sm-12"> 
           </div>
-        </div>
-
-        
-        
+        </div> 
         <!-- /.row -->
       </div>
       <!-- /.container-fluid -->
@@ -48,10 +37,7 @@
     <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-lg-12" id="quizMainSection">
-
-            
-
+          <div class="col-lg-12" id="quizMainSection"> 
               <!-- Questions Card -->
               <div class="card" id="time"> 
                 <div class="card-header" style="background: linear-gradient(to right, #33ccff 0%, #ff99cc 100%);">
@@ -69,7 +55,7 @@
               <div class="card" id="questions"> 
                 <div class="card-header">
                   <div class="d-flex justify-content-between">
-                    <span class="text text-lg"  id="quesNo">Question </span>
+                    <span class="text text-lg"  id="quesNo">Question</span>
                     <!-- <div id="timer">
                       
                         <span><i class="bi bi-clock-fill"></i>00:00:10</span>
@@ -85,19 +71,19 @@
     
                       <p id="question"></p> 
                       <label for="A">a)</label>
-                      <button type="button" id="op1" class="btn btn-outline-primary optbtn" style="border:none"  name="op" value="A">
+                      <button type="button" id="op1" class="btn btn-outline-primary optbtn" style="border:none"  name="op" value="A" onclick="check_user_ans(this)">
                       </button>
                       <br><br>
                       <label for="A">b)</label>
-                      <button type="button" id="op2" class="btn btn-outline-primary optbtn" style="border:none"  name="op" value="B">
+                      <button type="button" id="op2" class="btn btn-outline-primary optbtn" style="border:none"  name="op" value="B" onclick="check_user_ans(this)">
                       </button>
                       <br><br>
                       <label for="A">c)</label>
-                      <button type="button" id="op3" class="btn btn-outline-primary optbtn" style="border:none" name="op" value="C">
+                      <button type="button" id="op3" class="btn btn-outline-primary optbtn" style="border:none" name="op" value="C" onclick="check_user_ans(this)">
                       </button>
                       <br><br>
                       <label for="A">d)</label>
-                      <button type="button" id="op4"  class="btn btn-outline-primary optbtn" style="border:none" name="op" value="D">
+                      <button type="button" id="op4"  class="btn btn-outline-primary optbtn" style="border:none" name="op" value="D" onclick="check_user_ans(this)">
                       </button>
                       <br><br>
 
@@ -123,7 +109,7 @@
                 <div class="card-header">
                   <div class="d-flex justify-content-between">
                         <h1>Results</h1>
-                        <h1 id="score">Results</h1>
+                        <h1 id="score"></h1>
                     <!-- <div id="timer">
                       
                         <span><i class="bi bi-clock-fill"></i>00:00:10</span>
@@ -135,6 +121,7 @@
                 <div class="card-body" id="resultBody"> 
                  
                 </div>
+                <button class="btn btn-primary" onclick="location.reload();">Play Again</button>
            </div>  
         </div>
       </div>
@@ -174,6 +161,7 @@ var questionTimer = QUESTION_TIME;
 var timeCounterRef;
 var correct_answer = 0;
 var wrong_answer = 0;
+var quesNo=0;
     $(function()
     {
         $.ajax({
@@ -221,7 +209,8 @@ var wrong_answer = 0;
                         resetTimer();
                         show(questions[++questionCounter]);
                     }
-                    // console.log(questionCounter);
+
+                    console.log(questionCounter);
 
                     // if($("#quesNO"+questionCounter).css('backgroundColor') == '#0066FF')
                     // {     
@@ -232,9 +221,14 @@ var wrong_answer = 0;
 
         });
         
-        $(".optbtn").click(function (e)
-        {
-            var user_ans=$(this).val();
+        
+
+    });
+
+
+function check_user_ans(ele)
+{
+            var user_ans=$(ele).val();
             var check=check_ans(questions[questionCounter]); 
             $("button[class*=  optbtn]").attr('class','btn btn-outline-primary optbtn')
             $("button[class*=  optbtn]").attr('class','btn btn-outline-primary optbtn')
@@ -247,7 +241,7 @@ var wrong_answer = 0;
                  $("#quesNO"+quesNo).css('backgroundColor','green').attr("disabled",true);
                  
                  
-                $(this).attr('class', 'btn btn-success optbtn');
+                $(ele).attr('class', 'btn btn-success optbtn');
             }
             else if(check!=user_ans)
             {
@@ -256,13 +250,10 @@ var wrong_answer = 0;
                 $("#quesNO"+quesNo).css('backgroundColor','red').attr("disabled",true);
                 
 
-                $(this).attr('class','btn btn-danger optbtn');
+                $(ele).attr('class','btn btn-danger optbtn');
             }
-            $(".optbtn").prop('disabled',true); 
-        })
-
-    });
-
+            $(".optbtn").attr('onclick',false); 
+}
 function check_ans(question)
 {
     
@@ -271,14 +262,15 @@ function check_ans(question)
 function show(question)
 {
     $("button[class*= optbtn]").attr('class','btn btn-outline-primary optbtn')
-    $("button[class*= optbtn]").attr('class','btn btn-outline-primary optbtn' )
+    $(".optbtn").attr('onclick',"check_user_ans(this)");
+    // $("button[class*= optbtn1]").attr('class','btn btn-outline-primary optbtn')
     $(".optbtn").prop('disabled',false);
     $("#question").html(question['ques']);
     $("#op1").html(question['opt1']);
     $("#op2").html(question['opt2']);
     $("#op3").html(question['opt3']);
     $("#op4").html(question['opt4']); 
-    var quesNo = questionCounter+1;
+     quesNo = questionCounter+1;
     $("#timer").html(QUESTION_TIME+"&nbsp;Seconds");
 
     $("#quesNO"+quesNo).css('backgroundColor','#0066FF');
@@ -286,8 +278,7 @@ function show(question)
     {
       $("#quesNO"+questionCounter).css('backgroundColor','#FFCC33');
     }
-    
-
+     
     $("#quesNo").html("Question "+quesNo);
      //console.log(questions.length,questionCounter)   
     if(questionCounter+1==questions.length)
@@ -354,13 +345,17 @@ function displayResults()
    
   var inhtml;
   var i=1;
-  var correct_a,correct_b,correct_c,correct_d;
+  var correct_a,correct_b,correct_c,correct_d,not_answered;
   $("#score").html("Score : "+correct_answer)
-  $.each(questions, function(key,value){
-    correct_a = "btn btn-outline-primary ";
+   
+  for(i=0;i <= questionCounter;i++)
+  {
+    value = questions[i]; 
+    correct_a = "btn btn-outline-primary";
     correct_b = "btn btn-outline-primary ";
     correct_c = "btn btn-outline-primary ";
     correct_d = "btn btn-outline-primary ";  
+    not_answered="";
     
     if(value.correct_opt=="A")
     {
@@ -397,8 +392,13 @@ function displayResults()
           correct_d = "btn btn-danger ";
       }
     }
+
+    if(!value.userOpt)
+    {
+      not_answered = "(Not Answered)";
+    }
     inhtml = `<div style="margin: 30px;">     
-                    <p>${i} ${value.ques}</p> 
+                    <p>${i+1} ${value.ques} ${not_answered}</p> 
                     <label for="A">a) </label>
                     <button type="button"  class="${correct_a}" style="border:none"  name="op" value="A" >
                     ${value.opt1}
@@ -422,11 +422,8 @@ function displayResults()
                   </div>`;
 
                   $('#resultBody').append(inhtml);
-                  i++;
-
-
-                
-  })
+                                  
+  }
 }
  
 </script>

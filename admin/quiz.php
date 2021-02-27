@@ -86,14 +86,14 @@
       echo "error : ".$conn->error;
     }
 
-  $timershow = "SELECT * from admin where id='2'";
+    $sql = "SELECT * from web_config where id='1'";
 
-  if($result = $conn->query($timershow))
+  if($result = $conn->query($sql))
   {
-    while($row = $result->fetch_assoc())
-      {
-          $seconds[]=$row; 
-      }    
+      $row = $result->fetch_assoc(); 
+    
+      $seconds=$row['quiz_time']; 
+          
   }
   else
   {
@@ -128,8 +128,7 @@
                   <div class="alert alert-danger" role="alert" id="alert12">
                     <?=$queryError?>
                     <span class="close" onclick='removeAlert("alert12")'>x</span>  
-                  </div>
-              
+                  </div> 
               <?php
             }
              ?>
@@ -264,14 +263,9 @@
                   
                     <div class="card-tools">
                     <div class="input-group mb-3">
-                    <?php 
-                    foreach($seconds as $sec)
-                    {
-                    ?>
-                      <input type="number" class="form-control" placeholder="Question Timer" id="timerrr" aria-label="Recipient's username" value="<?=$sec['type']?>" aria-describedby="basic-addon2">
-                      <?php
-                    }
-                      ?>
+                    
+                      <input type="number" class="form-control" placeholder="Question Timer" id="timerrr" aria-label="Recipient's username" value="<?=$seconds?>" aria-describedby="basic-addon2">
+                      
                       <div class="input-group-append">
                         <button class="input-group-text" id="basic-addon2" onclick="addTimer()" style="background-color:dodgerblue">Update</button>
                       </div>
@@ -617,7 +611,10 @@
               },
               success : function(data)
                 {
+                  if(data.trim()=="ok")
+                  {
 
+                  }
                 },
                 error:
                 function(err){} 
