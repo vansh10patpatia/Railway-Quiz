@@ -8,10 +8,12 @@
     if(isset($_POST['username']) && isset($_POST['start']))
     {
       $naam = $_POST['username'];
+      $category = $_POST['category'];
       
-        $sql = "insert into response(username) values('$naam')";
+        $sql = "insert into response(username,category) values('$naam','$category')";
         if($conn->query($sql))
         {
+          setcookie("category",$category, time() + 3600, "/");   
           $querySuccess = "Question inserted Successfully!";
         ?>
         <script>
@@ -27,6 +29,18 @@
      
       
     }
+    $sql = "SELECT category from ques_cat";
+      if($result = $conn->query($sql))
+      {
+        while($row = $result->fetch_assoc())
+        {
+            $cat[]=$row; 
+        }       
+      }
+      else
+      {
+        echo "error : ".$conn->error;
+      }
 ?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -49,17 +63,7 @@
         <div class="row">
           <div class="col-lg-12">
 
-          <?php
-            if(isset($result))
-            {
-              ?>
-                  <div class="alert alert-danger" role="alert" id="alert12">
-                    <?=$result?>
-                    <span class="close" onclick='removeAlert("alert12")'>x</span>
-                  </div>
-              <?php
-            }
-          ?>
+          
              
               <!-- Question  -->
               <div class="card"> 
@@ -76,22 +80,53 @@
                 <div class="card-body">
                   <form method="post">
                     <div class="form-group">
-                      <label for="exampleFormControlInput1">Enter your Name:</label>
-                      <input type="text" class="form-control" name="username" id="exampleFormControlInput1" placeholder="Your name" required>
+                      <div class="row">
+                          <div class="col-lg-6">
+                            <label for="exampleFormControlInput1">Enter your Name:</label>
+                          </div>
+                          <div class="col-lg-6">
+                            <input type="text" class="form-control" name="username" id="exampleFormControlInput1" placeholder="Your name" required>
+                        </div>
+                          
+                      </div>
+                      <br>
+                      <div class="row">
+                      <div class="col-lg-6">
+                              <label for="exampleFormControlInput1">Select Category:</label>
+                          </div>
+                        <div class="col-lg-6">
+                        
+                        <select class="form-control" aria-label="Default select example" name="category"  id="category">
+                              <?php
+                                  if(isset($cat))
+                                  {
+                                    foreach ($cat as $category)
+                                    {
+                                                                                
+                                          ?>
+                                            <option value="<?=$category['category']?>" ><?=$category['category']?></option>
+                                          <?php
+                                        
+                                      
+                                    }
+                                  }
+                              ?>
+                              </select>
+                        </div>
+                      </div>
                     </div>
                     <p>1) Read the question carefully.</p> 
                     <p>2) Each question Should be attempted in the given time. </p>
-                    <p>3) You cannot reattempt the question.</p>
-                    <p>4) Ensure that you use the washroom before arriving for your exam as you will not be permitted to leave during the first hour.</p>
-                    <p>5) Once you click on the option your response for that particular question gets submitted.</p>
-                    <p>6) At last you will get your scorecard for your answers.</p>
-                    <p>7) After attempting the question you cannot go back and reattempt any of the question.</p>
+                    <p>3) Ensure that you use the washroom before arriving for your exam as you will not be permitted to leave during the first hour.</p>
+                    <p>4) Once you click on the option your response for that particular question gets submitted.</p>
+                    <p>5) At last you will get your scorecard for your answers.</p>
+                    <p>6) After attempting the question you cannot go back and reattempt any of the question.</p>
                     <center>
                     <div class="typewriter">
                         <h1 class="typewriter-text " style=" background: -webkit-linear-gradient(red 0%, orange 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;font-size:50px;font-style: italic;">All The Best!</h1>
                     </div>
                       <!-- <a href="quiz_front.php"> -->
-                      <button type="submit" class="btn btn-outline-success" name="start" id="start">Start Attempt</button>
+                      <button type="submit" class="btn btn-outline-success" name="start" onclick="setCookie()" id="start">Start Attempt</button>
                       <!-- </a> -->
                     </center>
                   </form>
@@ -143,6 +178,16 @@
       $("#start").attr('disabled',false);
     })
   });
+
+  function setCookie()
+  {
+      var cname = "category";
+      var cvalue = $("#category").val();
+      var d = new Date();
+      d.setTime(d.getTime() + (1*1*60*60*1000));
+      var expires = "expires="+ d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
 
   function removeAlert(id)
   {

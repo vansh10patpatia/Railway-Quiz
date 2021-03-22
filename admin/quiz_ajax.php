@@ -11,8 +11,9 @@ if(isset($_POST['change']))
     $opt3 = $_POST['opt3'];
     $opt4 = $_POST['opt4'];
     $ans = $_POST['ans'];
+    $category =$_POST['category'];
     
-    $sql="update questions set ques='$question' , opt1='$opt1' , opt2='$opt2' , opt3='$opt3' , opt4='$opt4' , correct_opt='$ans' where id='$id'";
+    $sql="update questions set ques='$question' , opt1='$opt1' , opt2='$opt2' , opt3='$opt3' , opt4='$opt4' , correct_opt='$ans',category='$category' where id='$id'";
 
     if($conn->query($sql))
     {   

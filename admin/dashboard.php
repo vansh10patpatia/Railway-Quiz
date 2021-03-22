@@ -25,7 +25,7 @@ require_once "sidebar.php";
         }
  
     }
-    
+
     
     $sql="SELECT count(id) as count from questions";
     if($result=$conn->query($sql))
@@ -67,6 +67,18 @@ require_once "sidebar.php";
             while($row=$result->fetch_assoc())
             {    
                 $questions[]=$row;
+            }
+        }
+    }
+
+    $sql = "SELECT category from ques_cat limit 2";
+    if($result=$conn->query($sql))
+    {
+        if($result->num_rows>0)
+        {
+            while($row=$result->fetch_assoc())
+            {    
+                $ques_cat[]=$row;
             }
         }
     }
@@ -186,6 +198,49 @@ require_once "sidebar.php";
                         </div>
                         <div class="card-footer clearfix">
                             <a href="lib_books" class="btn btn-sm btn-info float-right">View All Books</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header border-transparent" style="background-color: #343a40;">
+                        <h3 class="card-title" style="color: white;">Question Categories</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0" style="border-spacing: 2px;  font-size: 16px;">
+                                <thead style="font-weight: 800; background-color: #6c757d; color: white;">
+                                    <tr>
+                                        <th style="text-align: center;">S.no.</th>
+                                        <th style="text-align: center;">Question Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-align: center;">
+                                    <?php
+                                        if(isset($ques_cat))
+                                        {
+                                            $i=1;
+                                            foreach($ques_cat as $data)
+                                            {
+                                    ?>
+                                                <tr>
+                                                    <td style="padding: 12px; color: #17a2b8;"><?=$i?></td>
+                                                    <td style="padding: 12px;"><?=$data['category']?></td> 
+                                                </tr>
+                                    <?php
+                                                $i++;
+                                            }
+                                        }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer clearfix">
+                            <a href="ques_cat" class="btn btn-sm btn-primary float-right">View All Categories</a>
                         </div>
                     </div>
                 </div>

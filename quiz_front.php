@@ -12,6 +12,7 @@
       $row = $result->fetch_assoc();
       $timer=$row['quiz_time']; 
   }
+
    
 ?>
 
@@ -56,6 +57,7 @@
                 <div class="card-header">
                   <div class="d-flex justify-content-between">
                     <span class="text text-lg"  id="quesNo">Question</span>
+                    <input type="hidden" id="category" name="category" value=""/>
                     <!-- <div id="timer">
                       
                         <span><i class="bi bi-clock-fill"></i>00:00:10</span>
@@ -164,11 +166,44 @@ var wrong_answer = 0;
 var quesNo=0;
     $(function()
     {
+
+      function getCookie(cname) 
+      {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+      
+      function checkCookie() 
+      {
+        var  category = getCookie("category");
+        if (category != "") 
+        {
+          console.log(category);  
+          $("#category").val(category);
+        }
+        else 
+        {
+          console.log(11);
+          
+        }
+      }
         $.ajax({
             url:'user_ajax.php',
             type:'POST',
             data:{
                 questions:true
+                // category:category
             },
             success:function(data)
             {
@@ -253,7 +288,15 @@ function check_user_ans(ele)
                 $(ele).attr('class','btn btn-danger optbtn');
             }
             $(".optbtn").attr('onclick',false); 
+            $(".optbtn").attr('disabled',true); 
+
 }
+
+
+
+
+
+
 function check_ans(question)
 {
     

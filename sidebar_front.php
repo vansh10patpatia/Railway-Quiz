@@ -2,7 +2,21 @@
 
 <?php
 
-$sql = "SELECT *  from questions";
+$sql = "SELECT * from response order by id desc limit 1";
+    if($result = $conn->query($sql))
+    {
+        while($row = $result->fetch_assoc())
+        {
+            $category[]=$row;
+        }    
+    }
+    foreach($category as $cat)
+    {
+        $type = $cat['category'];
+    }
+
+  $cate = $type;
+  $sql = "SELECT *  from questions where category='$cate'";
     if($result = $conn->query($sql))
     {
       $rows = mysqli_num_rows($result);    
@@ -11,6 +25,8 @@ $sql = "SELECT *  from questions";
     {
       echo "error : ".$conn->error;
     }
+
+    
 ?>
 <aside class="main-sidebar sidebar-white-primary elevation-4" style="background: linear-gradient(to bottom, #cc99ff 0%, #66ccff 100%);">
     <!-- Brand Logo -->
@@ -42,6 +58,8 @@ $sql = "SELECT *  from questions";
                             </div>
                           </div>
                           <div class="card-body">
+                            Category                                    :&nbsp;<?=$type?>
+                            <br>
                             Number of Questions                         : &nbsp;<?=$rows?>
                           </div>
                         </div>

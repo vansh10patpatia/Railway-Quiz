@@ -1,10 +1,23 @@
 <?php
     require_once "lib/core.php";
 
+    $sql = "SELECT * from response order by id desc limit 1";
+    if($result = $conn->query($sql))
+    {
+        while($row = $result->fetch_assoc())
+        {
+            $category[]=$row;
+        }    
+    }
+    foreach($category as $cat)
+    {
+        $type = $cat['category'];
+    }
     if(isset($_POST['questions']))
     {
         $question=[];
-        $sql = "SELECT *  from questions";
+        $cate = $type;
+        $sql = "SELECT *  from questions where category = '$cate' ORDER BY rand() ";
         if($result = $conn->query($sql))
         {
           while($row = $result->fetch_assoc())

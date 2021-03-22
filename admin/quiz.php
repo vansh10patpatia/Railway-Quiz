@@ -23,7 +23,7 @@
   }
 
   // Insering a Question
-  if(isset($_POST['insert']) && isset($_POST['newquestion']) && !empty(($_POST['newquestion'])) && isset($_POST['optionA']) && !empty($_POST['optionA']) && isset($_POST['optionB']) && !empty($_POST['optionB']) && isset($_POST['optionC']) && !empty($_POST['optionC']) && isset($_POST['optionD']) && !empty($_POST['optionD']) && isset($_POST['option']))
+  if(isset($_POST['insert']) && isset($_POST['newquestion']) && !empty(($_POST['newquestion'])) && isset($_POST['optionA']) && !empty($_POST['optionA']) && isset($_POST['optionB']) && !empty($_POST['optionB']) && isset($_POST['optionC']) && !empty($_POST['optionC']) && isset($_POST['optionD']) && !empty($_POST['optionD']) && isset($_POST['option']) && isset($_POST['category']) && !empty($_POST['category']))
   {
     $question = $_POST['newquestion'];
     $opt1 = $_POST['optionA'];
@@ -31,49 +31,34 @@
     $opt3 = $_POST['optionC'];
     $opt4 = $_POST['optionD'];
     $ans = $_POST['option'];
+    $category = $_POST['category'];
 
-    $sql = "insert into questions(ques,opt1,opt2,opt3,opt4,correct_opt) values('$question','$opt1','$opt2','$opt3','$opt4','$ans')";
+    setcookie("category", $category, time()+3600, "/","", 0);
+
+
+    $sql = "insert into questions(ques,opt1,opt2,opt3,opt4,correct_opt,category) values('$question','$opt1','$opt2','$opt3','$opt4','$ans','$category')";
 
     if($conn->query($sql))
     {
       $querySuccess = "Question inserted Successfully!";
-    }
+     }
     else
     {
       $queryError = "Error Occured while inserting the Question!";
       echo "error : ".$conn->error;
     }
 
+
   }
+  
 
   $i=1;
 
-  // if(isset($_POST['change']))
-  // {
-  //   $id= $_POST['change'];
-  //   $question = $_POST['question'.$id];
-  //   $opt1 = $_POST['option_a'.$id];
-  //   $opt2 = $_POST['option_b'.$id];
-  //   $opt3 = $_POST['option_c'.$id];
-  //   $opt4 = $_POST['option_d'.$id];
-  //   $ans = $_POST['option'.$id];
-    
-  //   $sql="update questions set ques='$question' , opt1='$opt1' , opt2='$opt2' , opt3='$opt3' , opt4='$opt4' , correct_opt='$ans' where id='$id'";
-
-  //   if($conn->query($sql))
-  //   {
-  //     $querySuccess = true;
-  //   }
-  //   else
-  //   {
-  //     $queryError = true;
-  //   }
-
-  // }
+  
 
 
   // Displaying All records 
-  $sql = "SELECT *  from questions";
+  $sql = "SELECT *  from questions ";
     if($result = $conn->query($sql))
     {
       while($row = $result->fetch_assoc())
@@ -88,17 +73,40 @@
 
     $sql = "SELECT * from web_config where id='1'";
 
+      if($result = $conn->query($sql))
+      {
+          $row = $result->fetch_assoc(); 
+        
+          $seconds=$row['quiz_time']; 
+              
+      }
+      else
+      {
+        echo "error : ".$conn->error;
+      }
+
+  $sql = "SELECT category from ques_cat";
   if($result = $conn->query($sql))
   {
-      $row = $result->fetch_assoc(); 
-    
-      $seconds=$row['quiz_time']; 
-          
+    while($row = $result->fetch_assoc())
+    {
+        $cat[]=$row; 
+    }       
   }
   else
   {
     echo "error : ".$conn->error;
   }
+
+  $sqll = "SELECT * from questions order by id desc limit 1";
+    if($result = $conn->query($sqll))
+    {
+        while($row = $result->fetch_assoc())
+        {
+            $happy[]=$row;
+        }    
+    }
+    
 
 ?>
 
@@ -142,7 +150,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Admin Panel</a></li>
-              <li class="breadcrumb-item active">quiz</li>
+              <li class="breadcrumb-item active">Quiz</li>
             </ol>
           </div>
           <!-- /.col -->
@@ -166,6 +174,7 @@
                   <h5 class="card-title">             
                     Add Question!
                   </h5>
+                  
                 <div class="card-tools">
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-plus"></i>
@@ -181,7 +190,41 @@
                   <div class="d-flex">
                     <div class="container">
                       <div class="row">
-                        <input class="form-control form-control-lg newField " type="text" name="newquestion" placeholder="Write New Question here!" required/>  
+                        <div class="col-lg-10">
+                          <h6>Question Category &nbsp;:</h6>
+                        </div>
+                        <div class="col-lg-2">
+                          <select class="form-control" aria-label="Default select example" name="category">
+                          <?php
+                              if(isset($cat))
+                              {
+                                
+                                foreach ($cat as $category)
+                                {                               
+                                  foreach($happy as $birthday)
+                                  {
+                                    $sel = "";                                                                                                             
+                                    if($birthday['category']  == $category['category'])
+                                    {
+                                          $sel = "selected";
+                                    }
+                                  
+                                  ?>
+                                  <option value="<?=$category['category']?>" <?=$sel?>><?=$category['category']?></option>
+                                  <?php
+                                  }
+                                }
+                              }
+                          ?>
+
+                          </select>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-12">
+                              <br>
+                          <input class="form-control form-control-lg newField " type="text" name="newquestion" placeholder="Write New Question here!" required/>  
+                        </div>
                         
                       </div>
                       <br>
@@ -293,30 +336,12 @@
                 if(isset($data))
                 { 
                   
-                  $opt1="";
-                  $opt2="";
-                  $opt3="";
-                  $opt4="";
+                 
                   foreach($data as $value)
                   {
-                      switch($value['correct_opt'])
-                      {
-                        case "A":
-                          $opt1="checked";
-                          break;
-                        
-                        case "B":
-                          $opt2="checked";
-                          break;  
 
-                        case "C":
-                          $opt3="checked";
-                          break;    
-
-                        case "D":
-                          $opt4="checked";
-                          break;
-                      }
+                      
+                                            
               ?>
               <!-- Question  -->
               <div class="card"> 
@@ -335,12 +360,36 @@
                   </div>
                 </div> 
                 <div class="card-body">
-                  <div class="d-flex">
-                    
-                  </div>
+                      <div class="row">
+                          <div class="col-lg-10">Question Category &emsp;:</div>
+                            <div class="col-lg-2">
+                              <select class="form-control" aria-label="Default select example" name="category" disabled id="category<?=$value['id']?>">
+                              <?php
+                                  if(isset($cat))
+                                  {
+                                    foreach ($cat as $category)
+                                    {
+                                        $selected=''; 
+                                        if($value['category'] == $category['category'])
+                                        {
+                                          $selected='selected';
+                                        }
+                                         
+                                          ?>
+                                          <option value="<?=$category['category']?>" <?=$selected?>><?=$category['category']?></option>
+                                          <?php
+                                        
+                                      
+                                    }
+                                  }
+                              ?>
+                              </select>
+                            </div>
+                          </div>
                 <form method="post">
                   <div class="d-flex">
                     <p class="p-1 w-100">
+                                  <br>
                         <input type="text" class="form-control disabledElements" value="<?=$value['ques']?>" name="question<?=$value['id']?>" oninput="setElementId('question<?=$value['id']?>')" id="question<?=$value['id']?>" disabled>
                         <!-- <input type="hidden" class="form-control" value="<?=$value['ques']?>"  id="question<?=$value['id']?>" > -->
                     </p>
@@ -406,16 +455,46 @@
                         </div>
                         <span class="text">
                           <input type="text" class="form-control disabledElements" name="option_d<?=$value['id']?>" oninput="setElementId('option4<?=$value['id']?>')"  id="option4<?=$value['id']?>" value="<?=$value['opt4']?>" disabled >
-                          <!-- <input type="hidden" class="form-control" name="option_d<?=$value['id']?>" id="option4<?=$value['id']?>" value="<?=$value['opt4']?>"> -->
                         </span>
                         
                         &nbsp;
-                        <!-- <Button type="button" class="btn btn-tool"  name="edit" id="edit4<?=$value['id']?>" onclick="makeEditable(4<?=$i?>)"><i class="bi bi-pencil-square"></i></Button> -->
                         
                       </li>
                       <li>
                         <label for="correctAnswer">Correct Answer:</label>
-                        <input type="radio" value="A" <?=$opt1?> name="option<?=$value['id']?>" id="todoCheck1<?=$value['id']?>" onclick="updatebutton(<?=$value['id']?>)" >
+                        <select class="form-control" aria-label="Default select example" name="answer<?=$value['id']?>" disabled id="answer<?=$value['id']?>">
+                                        <?php
+                                        $select1='';
+                                        $select2='';
+                                        $select3='';
+                                        $select4=''; 
+                                        if($value['correct_opt'] == "A")
+                                        {
+                                          $select1='selected';
+                                        }
+                                        else if($value['correct_opt'] == "B")
+                                        {
+                                          $select2='selected';
+                                        }
+                                        else if($value['correct_opt'] == "C")
+                                        {
+                                          $select3='selected';
+                                        }
+                                        else if($value['correct_opt'] == "D")
+                                        {
+                                          $select4='selected';
+                                        }
+                                         
+                                          ?>
+                                          <option value="A" <?=$select1?>><?=$value['opt1']?></option>
+                                          <option value="B" <?=$select2?>><?=$value['opt2']?></option>
+                                          <option value="C" <?=$select3?>><?=$value['opt3']?></option>
+                                          <option value="D" <?=$select4?>><?=$value['opt4']?></option>
+                                          <?php?>
+                                        
+                        </select>
+
+                        <!-- <input type="radio" value="A" <?=$opt1?> name="option<?=$value['id']?>" id="todoCheck1<?=$value['id']?>" onclick="updatebutton(<?=$value['id']?>)" >
                         <label for="todoCheck1">A</label>
                         &nbsp;
                         <input type="radio" value="B" <?=$opt2?> name="option<?=$value['id']?>" id="todoCheck2<?=$value['id']?>" onclick="updatebutton(<?=$value['id']?>)" >
@@ -425,7 +504,7 @@
                         <label for="todoCheck3">C</label>
                         &nbsp;
                         <input type="radio" value="D" <?=$opt4?> name="option<?=$value['id']?>" id="todoCheck4<?=$value['id']?>" onclick="updatebutton(<?=$value['id']?>)" >
-                        <label for="todoCheck4">D</label>
+                        <label for="todoCheck4">D</label> -->
                       </li>
                       <div class="d-flex">
                         
@@ -501,6 +580,10 @@
     $("#option2"+counter).attr("disabled",false);
     $("#option3"+counter).attr("disabled",false);
     $("#option4"+counter).attr("disabled",false);
+    $("#category"+counter).attr("disabled",false);
+    $("#answer"+counter).attr("disabled",false);
+
+
     
   }
 
@@ -547,15 +630,17 @@
     var opt3 = $("#option3"+id).val();
     var opt4 = $("#option4"+id).val();
     var ele =  document.getElementsByName('option'+id);
-    var ans = "";
+    var ans = $("#answer"+id).val();
+    var category =$("#category"+id).val()
+    console.log(category);
    
-     for(i = 0; i < ele.length; i++) 
-      { 
-        if(ele[i].checked) 
-        {
-          ans = ele[i].value;
-        }
-      }
+    //  for(i = 0; i < ele.length; i++) 
+    //   { 
+    //     if(ele[i].checked) 
+    //     {
+    //       ans = ele[i].value;
+    //     }
+    //   }
 
       // console.log(ques);
       // console.log(opt1);
@@ -573,7 +658,8 @@
                 opt2:opt2,
                 opt3:opt3,
                 opt4:opt4,
-                ans:ans         
+                ans:ans ,
+                category:category        
               },
               success : function(data)
                 {
