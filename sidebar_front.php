@@ -2,24 +2,14 @@
 
 <?php
 
-$sql = "SELECT * from response order by id desc limit 1";
-    if($result = $conn->query($sql))
-    {
-        while($row = $result->fetch_assoc())
-        {
-            $category[]=$row;
-        }    
-    }
-    foreach($category as $cat)
-    {
-        $type = $cat['category'];
-    }
+ 
 
-  $cate = $type;
-  $sql = "SELECT *  from questions where category='$cate'";
+  $type = $cate = $_COOKIE['category'];
+  $sql = "SELECT *  from questions q,ques_cat qc where q.category=qc.id and qc.category='$cate'";
     if($result = $conn->query($sql))
     {
       $rows = mysqli_num_rows($result);    
+
     }
     else
     {

@@ -63,12 +63,11 @@
   {
 
      $token = $_GET['token'];
-     $sql = "SELECT *  from questions where category='$token'";
+     $sql = "SELECT *  from questions, ques_cat  where ques_cat.id = questions.category and ques_cat.category='$token'";
   }
   else
   {
-    $sql = "SELECT *  from questions ";
-     
+    $sql = "SELECT *  from questions, ques_cat  where ques_cat.id = questions.category";  
   }
    if($result = $conn->query($sql))
       {
@@ -96,7 +95,7 @@
         echo "error : ".$conn->error;
       }
 
-  $sql = "SELECT category from ques_cat";
+  $sql = "SELECT category,id from ques_cat";
   if($result = $conn->query($sql))
   {
     while($row = $result->fetch_assoc())
@@ -221,7 +220,7 @@
                                     }
                                   
                                   ?>
-                                  <option value="<?=$category['category']?>" <?=$sel?>><?=$category['category']?></option>
+                                  <option value="<?=$category['id']?>" <?=$sel?>><?=$category['category']?></option>
                                   <?php
                                   }
                                 }
