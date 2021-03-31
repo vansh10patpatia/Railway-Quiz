@@ -10,22 +10,22 @@
       $naam = $_POST['username'];
       $category = $_POST['category'];
       
-        $sql = "insert into response(username,category) values('$naam','$category')";
-        if($conn->query($sql))
-        {
-          setcookie("category",$category, time() + 3600, "/");   
-          $querySuccess = "Question inserted Successfully!";
+        // $sql = "insert into response(username,category) values('$naam','$category')";
+        // if($conn->query($sql))
+        // {
+          // setcookie("category",$category, time() + 3600, "/");   
+          // $querySuccess = "Question inserted Successfully!";
         ?>
         <script>
           window.location.href="./quiz_front";
         </script>
         <?php
-        }
-        else
-        {
-          $queryError = "Error Occured while inserting the Question!";
-          echo "error : ".$conn->error;
-        }
+        // }
+        // else
+        // {
+        //   $queryError = "Error Occured while inserting the Question!";
+        //   echo "error : ".$conn->error;
+        // }
      
       
     }
