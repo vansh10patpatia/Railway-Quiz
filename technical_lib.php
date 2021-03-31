@@ -5,7 +5,7 @@ require_once "nav_front.php";
 require_once "rightnavbar.php";
 require_once "instruction_sidebar.php";
 
-$sql = "SELECT * from lib_categories";
+$sql = "SELECT * from lib_categories order by sort_order";
 if ($result = $conn->query($sql)) {
     if ($result->num_rows) {
         while ($row = $result->fetch_assoc()) {

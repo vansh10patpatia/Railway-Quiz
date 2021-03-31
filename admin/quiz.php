@@ -58,18 +58,29 @@
 
 
   // Displaying All records 
-  $sql = "SELECT *  from questions ";
-    if($result = $conn->query($sql))
-    {
-      while($row = $result->fetch_assoc())
+
+  if(isset($_GET['token']))
+  {
+
+     $token = $_GET['token'];
+     $sql = "SELECT *  from questions where category='$token'";
+  }
+  else
+  {
+    $sql = "SELECT *  from questions ";
+     
+  }
+   if($result = $conn->query($sql))
       {
-          $data[]=$row; 
-      }       
-    }
-    else
-    {
-      echo "error : ".$conn->error;
-    }
+        while($row = $result->fetch_assoc())
+        {
+            $data[]=$row; 
+        }       
+      }
+      else
+      {
+        echo "error : ".$conn->error;
+      }
 
     $sql = "SELECT * from web_config where id='1'";
 
@@ -98,14 +109,14 @@
     echo "error : ".$conn->error;
   }
 
-  $sqll = "SELECT * from questions order by id desc limit 1";
-    if($result = $conn->query($sqll))
-    {
-        while($row = $result->fetch_assoc())
-        {
-            $happy[]=$row;
-        }    
-    }
+  // $sqll = "SELECT * from questions order by id desc limit 1";
+  //   if($result = $conn->query($sqll))
+  //   {
+  //       while($row = $result->fetch_assoc())
+  //       {
+  //           $happy[]=$row;
+  //       }    
+  //   }
     
 
 ?>
@@ -201,10 +212,10 @@
                                 
                                 foreach ($cat as $category)
                                 {                               
-                                  foreach($happy as $birthday)
+                                  if(isset($token))
                                   {
                                     $sel = "";                                                                                                             
-                                    if($birthday['category']  == $category['category'])
+                                    if($token == $category['category'])
                                     {
                                           $sel = "selected";
                                     }

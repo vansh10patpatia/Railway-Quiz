@@ -1,3 +1,20 @@
+<?php 
+
+$sql = "SELECT * from ques_cat";
+if($result = $conn->query($sql))
+{
+  while($row = $result->fetch_assoc())
+  {
+      $categories[]=$row; 
+  }       
+}
+else
+{
+  echo "error : ".$conn->error;
+}
+?>
+
+
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -32,13 +49,53 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="./quiz" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Quiz
               </p>
             </a>
+          </li> -->
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Quiz Management
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="./ques_cat.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Category</p>
+                </a>
+              </li>
+              <?php
+                if(isset($categories))
+                {
+                  foreach($categories as $caty)
+                  {
+                    ?>
+                    
+                        <li class="nav-item">
+                          <a href="./quiz.php?token=<?=$caty['category']?>" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p><?=ucfirst($caty['category'])?></p>
+                          </a>
+                        </li> 
+                    <?php
+                  }
+                }
+              ?>
+              <li class="nav-item">
+                <a href="./quiz.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Questions</p>
+                </a>
+              </li> 
+            </ul>
           </li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">

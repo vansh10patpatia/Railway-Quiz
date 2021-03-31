@@ -26,8 +26,8 @@
         if(isset($_POST['add']))
         {
             $category=$conn->real_escape_string($_POST['catName']);
-            
-            $sql="insert into lib_categories(category) values('$category')";
+            $sort_order=$conn->real_escape_string($_POST['sortOrder']);
+            $sql="insert into lib_categories(category,sort_order) values('$category','$sort_order')";
             if($conn->query($sql))
             {
                     $resSubject = "true";
@@ -42,8 +42,8 @@
         {
             $category=$conn->real_escape_string($_POST['ecatName']);
             $id=$conn->real_escape_string($_POST['ecatid']);
-            
-            $sql="update lib_categories set category='$category' where id=$id";
+            $sort_order=$conn->real_escape_string($_POST['esortOrder']);
+            $sql="update lib_categories set category='$category',sort_order='$sort_order' where id=$id";
             if($conn->query($sql))
             {
                     $resSubject = "true";
@@ -55,7 +55,7 @@
         }
     }
         
-    $sql="select * from lib_categories";
+    $sql="select * from lib_categories order by sort_order";
     $result =  $conn->query($sql);
     if($result->num_rows)
     {
@@ -115,6 +115,7 @@
                         <tr>
                             <th>S.No</th>
                             <th style="width:70%"> Category Name</th>
+                            <th>Sort Order</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -134,6 +135,7 @@
                         <tr>
                             <td><?= $i;?></td>
                             <td style="  text-align: center; " id="category<?=$i?>"><?=$detail['category'];?></td>
+                            <td style="  text-align: center; " id="sort_order<?=$i?>"><?=$detail['sort_order'];?></td>
                             <td>
 
                                 <form method="post">
@@ -190,6 +192,12 @@
                                 <input type="text" id="catName" name="catName" class="form-control">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Sort Order</label><br>
+                                <input type="text" id="sortOrder" name="sortOrder" class="form-control">
+                            </div>
+                        </div>
                     </div>
 
 
@@ -222,6 +230,13 @@
                                 <input type="hidden" id="ecatid" name="ecatid" class="form-control">
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Sort Order</label><br>
+                                <input type="text" id="esortOrder" name="esortOrder" class="form-control">
+                                <!-- <input type="hidden" id="ecatid" name="ecatid" class="form-control"> -->
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -251,6 +266,7 @@
 function setEditValues(id, count) {
     $("#ecatid").val(id);
     $("#ecatName").val($("#category" + count).html());
+    $("#esortOrder").val($("#sort_order"+count).html());
 
 }
 </script>
